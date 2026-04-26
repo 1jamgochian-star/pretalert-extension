@@ -121,13 +121,10 @@ const STORES = {
 
   'altex.ro': {
     name: 'Altex',
-    isProduct: () => document.querySelector('[itemtype*="schema.org/Product"]') !== null
-      || /[/-]p\d{4,}\/?$/.test(location.pathname),
+    isProduct: () => /\/cpd\/[A-Z0-9]+\/?$/i.test(location.pathname),
     getId: () => {
-      const m = location.pathname.match(/[/-]p(\d{4,})\/?$/);
+      const m = location.pathname.match(/\/cpd\/([A-Z0-9]+)\/?$/i);
       if (m) return `altex:${m[1]}`;
-      const el = document.querySelector('[data-product-id]');
-      if (el) return `altex:${el.getAttribute('data-product-id')}`;
       return null;
     },
     getTitle: () => qsText([

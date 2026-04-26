@@ -193,7 +193,7 @@ async function init() {
   // Simplified product page detection by store
   const productPatterns = {
     'emag.ro':        /\/pd\/[A-Z0-9]+/i,
-    'altex.ro':       /[/-]p\d{4,}\/?$/,
+    'altex.ro':       /\/cpd\/[A-Z0-9]+\/?$/i,
     'ikea.com':       /\/catalog\/products\//,
     'cel.ro':         /\/produs\//,
     'pcgarage.ro':    /\/produs\//,
