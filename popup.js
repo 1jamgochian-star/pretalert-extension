@@ -22,8 +22,9 @@ const SUPPORTED_STORES = [
   { domain: 'evomag.ro',      name: 'EvoMag' },
   { domain: 'mediagalaxy.ro', name: 'Media Galaxy' },
   { domain: 'dedeman.ro',     name: 'Dedeman' },
-  { domain: 'ikea.com',       name: 'IKEA' },
-  { domain: 'zara.com',       name: 'Zara' },
+  { domain: 'ikea.com',          name: 'IKEA' },
+  { domain: 'zara.com',          name: 'Zara' },
+  { domain: 'pentruacasa.com',   name: 'PentruAcasa' },
 ];
 
 const STATUS_MAP = {

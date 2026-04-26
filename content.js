@@ -396,6 +396,32 @@ const STORES = {
     ]),
     waitSelectors: ['.product-detail-info', '.price__amount', '.price'],
   },
+
+  'pentruacasa.com': {
+    name: 'PentruAcasa',
+    // URLs: /category/subcategory/product-name-pID/
+    isProduct: () => /-p\d{3,}\/?$/.test(location.pathname)
+      || document.querySelector('h1.pr-titlu') !== null
+      || document.querySelector('.pret-c') !== null,
+    getId: () => {
+      const m = location.pathname.match(/-p(\d{3,})\/?$/);
+      if (m) return `pentruacasa:${m[1]}`;
+      const cod = document.querySelector('.cod-prod');
+      if (cod) return `pentruacasa:${cod.textContent.trim()}`;
+      return null;
+    },
+    getTitle: () => qsText(['h1.pr-titlu', '.pr-titlu', 'h1']),
+    getPrice: () => qsPrice([
+      'p.pret', '.pret-c p.pret', '.pret',
+      '[itemprop="price"]', '.price',
+    ]),
+    getImage: () => qsImage([
+      'img[src*="pentruacasa.com/continut/produse"]',
+      'img[itemprop="image"]',
+      '.produs-info img', '.produs img',
+    ]),
+    waitSelectors: ['p.pret', '.pret-c', 'h1.pr-titlu'],
+  },
 };
 
 // ── Store detection ───────────────────────────────────────────────────────────

@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "PretAlert – Tracker Prețuri România",
-  "version": "2.1.0",
-  "description": "Urmărește automat prețurile pe eMAG, Altex, Flanco, CEL.ro, PCGarage, EvoMag, MediaGalaxy, Dedeman, IKEA și Zara România.",
+  "version": "2.2.0",
+  "description": "Urmărește automat prețurile pe eMAG, Altex, Flanco, CEL.ro, PCGarage, EvoMag, MediaGalaxy, Dedeman, IKEA, Zara și PentruAcasa.com.",
 
   "permissions": ["activeTab", "storage", "tabs", "notifications"],
   "host_permissions": [
@@ -16,6 +16,7 @@
     "*://*.dedeman.ro/*",
     "*://*.ikea.com/*",
     "*://*.zara.com/*",
+    "*://*.pentruacasa.com/*",
     "https://www.pretalert.ro/*"
   ],
 
@@ -36,7 +37,8 @@
         "*://*.mediagalaxy.ro/*",
         "*://*.dedeman.ro/*",
         "*://*.ikea.com/ro/*",
-        "*://*.zara.com/ro/*"
+        "*://*.zara.com/ro/*",
+        "*://*.pentruacasa.com/*"
       ],
       "js": ["content.js"],
       "run_at": "document_idle",
