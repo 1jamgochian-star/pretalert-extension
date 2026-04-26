@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #0d0d1a;
+      --bg2:     #131326;
+      --bg3:     #1a1a33;
+      --border:  #252540;
+      --text:    #dde1f0;
+      --muted:   #5a6285;
+      --blue:    #00b4d8;
+      --purple:  #7c3aed;
+      --green:   #22c55e;
+      --orange:  #f59e0b;
+      --red:     #ef4444;
+      --radius:  10px;
+    }
+
+    body {
+      width: 340px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    /* ── Header ────────────────────────────────────────── */
+    .header {
+      background: linear-gradient(160deg, #13132e 0%, #0d1a33 100%);
+      padding: 14px 16px 13px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+    }
+    .logo-row {
+      display: flex; align-items: center; gap: 9px;
+    }
+    .logo-icon {
+      width: 34px; height: 34px;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 17px;
+      box-shadow: 0 0 12px #00b4d840;
+      flex-shrink: 0;
+    }
+    .logo-text .name {
+      font-size: 16px; font-weight: 700;
+      background: linear-gradient(90deg, var(--blue), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.2px;
+    }
+    .logo-text .sub {
+      font-size: 10px; color: var(--muted); margin-top: 1px;
+    }
+    .header-version { font-size: 10px; color: #303055; }
+
+    /* ── Status pill ───────────────────────────────────── */
+    .status-pill {
+      display: flex; align-items: center; gap: 7px;
+      padding: 9px 16px;
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+    }
+    .dot {
+      width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+      transition: background .3s, box-shadow .3s;
+    }
+    .dot.green  { background: var(--green);  box-shadow: 0 0 7px #22c55e88; }
+    .dot.blue   { background: var(--blue);   box-shadow: 0 0 7px #00b4d888; }
+    .dot.grey   { background: var(--muted); }
+    .dot.orange { background: var(--orange); box-shadow: 0 0 7px #f59e0b88;
+                  animation: blink 1.2s ease-in-out infinite; }
+
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+    /* ── Sections ──────────────────────────────────────── */
+    .section { padding: 14px 16px; }
+    .section + .section { border-top: 1px solid var(--border); }
+
+    /* Empty / not-on-store */
+    .placeholder {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 8px; padding: 16px 0 8px; text-align: center; color: var(--muted);
+    }
+    .placeholder .big-emoji { font-size: 34px; line-height: 1; }
+    .placeholder p { font-size: 12px; max-width: 200px; }
+
+    /* Loading */
+    .loading-row {
+      display: flex; align-items: center; gap: 9px;
+      color: var(--muted); font-size: 12px; padding: 8px 0;
+    }
+    .spin {
+      width: 15px; height: 15px;
+      border: 2px solid var(--border);
+      border-top-color: var(--blue);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      flex-shrink: 0;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Product card */
+    .product-card { display: flex; gap: 12px; align-items: flex-start; }
+    .pimg-wrap {
+      width: 68px; height: 68px; flex-shrink: 0;
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 8px; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .pimg-wrap img { width: 100%; height: 100%; object-fit: contain; }
+    .pimg-wrap .fallback { font-size: 26px; }
+    .pinfo { flex: 1; min-width: 0; }
+    .pname {
+      font-size: 12px; font-weight: 500; color: #c5cbde;
+      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+      overflow: hidden; line-height: 1.4;
+    }
+    .pstore {
+      font-size: 10px; color: var(--muted); margin-top: 2px;
+    }
+    .pprice {
+      margin-top: 6px;
+      font-size: 20px; font-weight: 700; color: var(--blue);
+      letter-spacing: -.5px; line-height: 1;
+    }
+    .pprice .currency {
+      font-size: 12px; font-weight: 400; color: var(--muted); margin-left: 3px;
+    }
+
+    /* Status badge */
+    .sbadge {
+      display: inline-flex; align-items: center; gap: 5px;
+      margin-top: 8px; padding: 3px 9px;
+      border-radius: 20px; font-size: 11px; font-weight: 600;
+    }
+    .sbadge.saved   { background: #0a2017; color: var(--green); border: 1px solid #22c55e33; }
+    .sbadge.pending { background: #1e180a; color: var(--orange); border: 1px solid #f59e0b33; }
+    .sbadge.error   { background: #200a0a; color: var(--red);    border: 1px solid #ef444433; }
+    .sbadge.offline { background: var(--bg3); color: var(--muted); border: 1px solid var(--border); }
+
+    /* ── Stores grid ───────────────────────────────────── */
+    .stores-title {
+      font-size: 10px; text-transform: uppercase; letter-spacing: .6px;
+      color: var(--muted); margin-bottom: 9px;
+    }
+    .stores-grid {
+      display: flex; flex-wrap: wrap; gap: 5px;
+    }
+    .store-chip {
+      padding: 3px 9px;
+      border-radius: 20px;
+      font-size: 11px; font-weight: 500;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      cursor: default;
+      transition: border-color .2s, color .2s;
+    }
+    .store-chip.active {
+      color: var(--blue);
+      border-color: #00b4d840;
+      background: #00b4d810;
+    }
+
+    /* ── Actions section ──────────────────────────────── */
+    .act-email {
+      width: 100%; padding: 7px 10px;
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 8px; color: var(--text);
+      font-size: 12px; outline: none;
+      margin-bottom: 8px;
+    }
+    .act-email:focus { border-color: var(--blue); }
+    .act-email::placeholder { color: var(--muted); }
+
+    .act-btn-row { display: flex; gap: 6px; margin-bottom: 6px; }
+    .act-btn-row:last-of-type { margin-bottom: 0; }
+
+    .btn-fav {
+      flex: 1; padding: 7px 10px;
+      background: #1d1500; color: var(--orange);
+      border: 1px solid #f59e0b33; border-radius: 8px;
+      font-size: 12px; font-weight: 600; cursor: pointer;
+      transition: background .15s, transform .1s;
+    }
+    .btn-fav:hover { background: #2a1d00; }
+    .btn-fav:active { transform: scale(.97); }
+    .btn-fav:disabled { opacity: .5; cursor: default; }
+
+    .act-price {
+      flex: 1; padding: 7px 10px;
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 8px; color: var(--text);
+      font-size: 12px; outline: none; min-width: 0;
+    }
+    .act-price:focus { border-color: var(--purple); }
+    .act-price::placeholder { color: var(--muted); }
+
+    .btn-alert {
+      padding: 7px 11px;
+      background: #110d1f; color: var(--purple);
+      border: 1px solid #7c3aed33; border-radius: 8px;
+      font-size: 12px; font-weight: 600; cursor: pointer;
+      white-space: nowrap;
+      transition: background .15s, transform .1s;
+    }
+    .btn-alert:hover { background: #1a1030; }
+    .btn-alert:active { transform: scale(.97); }
+    .btn-alert:disabled { opacity: .5; cursor: default; }
+
+    .confirm-msg {
+      margin-top: 8px; padding: 6px 10px;
+      border-radius: 8px; font-size: 11px; font-weight: 600;
+      text-align: center; display: none;
+    }
+    .confirm-msg.ok    { background: #0a2017; color: var(--green); border: 1px solid #22c55e33; }
+    .confirm-msg.error { background: #200a0a; color: var(--red);   border: 1px solid #ef444433; }
+
+    /* ── Footer ────────────────────────────────────────── */
+    .footer {
+      display: flex; gap: 8px;
+      padding: 10px 16px 13px;
+      border-top: 1px solid var(--border);
+    }
+    .btn {
+      flex: 1; padding: 8px 12px;
+      border-radius: 8px; border: none;
+      font-size: 12px; font-weight: 600;
+      cursor: pointer; text-decoration: none;
+      text-align: center; transition: opacity .15s, transform .1s;
+      display: block; line-height: 1.3;
+    }
+    .btn:hover  { opacity: .85; }
+    .btn:active { transform: scale(.97); }
+    .btn-ghost {
+      background: var(--bg3); color: var(--muted);
+      border: 1px solid var(--border);
+    }
+    .btn-primary {
+      background: linear-gradient(90deg, #0369a1, var(--purple));
+      color: #fff;
+    }
+    .btn-primary.hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="logo-row">
+      <div class="logo-icon">🔔</div>
+      <div class="logo-text">
+        <div class="name">PretAlert</div>
+        <div class="sub">Tracker prețuri România</div>
+      </div>
+    </div>
+    <span class="header-version">v2.0</span>
+  </div>
+
+  <!-- Status -->
+  <div class="status-pill">
+    <div class="dot grey" id="sdot"></div>
+    <span id="stxt">Se verifică...</span>
+  </div>
+
+  <!-- Main content -->
+  <div class="section" id="main-section">
+    <div class="loading-row">
+      <div class="spin"></div>
+      <span>Se încarcă datele...</span>
+    </div>
+  </div>
+
+  <!-- Actions: Favorite + Alertă (visible only when product is saved) -->
+  <div class="section" id="actions-section" style="display:none">
+    <input class="act-email" type="email" id="email-input"
+           placeholder="email-ul tău PretAlert" autocomplete="email" />
+    <div class="act-btn-row">
+      <button class="btn-fav" id="btn-fav">⭐ Adaugă la Favorite</button>
+    </div>
+    <div class="act-btn-row">
+      <input class="act-price" type="number" id="pret-input"
+             placeholder="Preț dorit (Lei)" min="1" step="any" />
+      <button class="btn-alert" id="btn-alert">🔔 Setează Alertă</button>
+    </div>
+    <div class="confirm-msg" id="confirm-msg"></div>
+  </div>
+
+  <!-- Supported stores (shown when not on a product page) -->
+  <div class="section" id="stores-section" style="display:none">
+    <div class="stores-title">Magazine suportate</div>
+    <div class="stores-grid" id="stores-grid"></div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <a class="btn btn-ghost" href="https://www.pretalert.ro" target="_blank">pretalert.ro</a>
+    <a class="btn btn-primary hidden" href="#" target="_blank" id="btn-view">Vezi pe PretAlert →</a>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
